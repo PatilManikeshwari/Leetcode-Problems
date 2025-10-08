@@ -1,0 +1,43 @@
+Given an array of strings words (without duplicates), return all the concatenated words in the given list of words.
+
+A concatenated word is defined as a string that is comprised entirely of at least two shorter words (not necessarily distinct) in the given array.
+
+ 
+
+Example 1:
+
+Input: words = ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+Output: ["catsdogcats","dogcatsdog","ratcatdogcat"]
+Explanation: "catsdogcats" can be concatenated by "cats", "dog" and "cats"; 
+"dogcatsdog" can be concatenated by "dog", "cats" and "dog"; 
+"ratcatdogcat" can be concatenated by "rat", "cat", "dog" and "cat".
+Example 2:
+
+Input: words = ["cat","dog","catdog"]
+Output: ["catdog"]
+
+Solution--
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        word_set = set(words)
+
+        def function(s,count,dict1):
+            if not s and count > 1:
+                return True 
+
+            if s in dict1:
+                return dict1[s]
+
+            for i in range(1,len(s)+1):
+                if s[:i] in word_set:
+                    if function(s[i:],count+1,dict1):
+                        dict1[s[:i]] = True 
+                        dict1[s[i:]] = True 
+                        return True 
+
+            dict1[s] = False 
+
+            return False 
+
+        return [x for x in words if function(x,0,{}) == True]
