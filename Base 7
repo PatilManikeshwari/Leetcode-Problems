@@ -1,0 +1,31 @@
+Given an integer num, return a string of its base 7 representation.
+
+ 
+
+Example 1:
+
+Input: num = 100
+Output: "202"
+Example 2:
+
+Input: num = -7
+Output: "-10"
+
+Solution--
+
+class Solution:
+    def convertToBase7(self, num: int) -> str:
+        n=num
+        if(n==0):
+            return "0"
+        t=n
+        n=abs(n)
+        s=''
+        while(n!=0):
+            rem=n%7
+            s+=str(rem)
+            n//=7
+        if(t<0):
+            return '-'+s[::-1]
+        else:
+            return s[::-1]
