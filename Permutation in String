@@ -1,0 +1,48 @@
+Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
+
+In other words, return true if one of s1's permutations is the substring of s2.
+
+ 
+
+Example 1:
+
+Input: s1 = "ab", s2 = "eidbaooo"
+Output: true
+Explanation: s2 contains one permutation of s1 ("ba").
+Example 2:
+
+Input: s1 = "ab", s2 = "eidboaoo"
+Output: false
+
+
+class Solution:
+    def checkInclusion(self, s1: str, s: str) -> bool:
+        need = Counter(s1)
+        n = len(s)
+        required = len(need)
+        formed = 0
+
+        left = 0
+        curr = defaultdict(int)
+
+        for right in range(n):
+            if s[right] in need:
+                curr[s[right]] += 1
+                if curr[s[right]] == need[s[right]]:
+                    formed += 1
+
+                if formed == required:
+                    return True
+
+                while curr[s[right]] > need[s[right]]:
+                    l = s[left]
+                    if curr[l] == need[l]:
+                        formed -= 1
+                    curr[l] -= 1
+                    left += 1
+            else:
+                left = right + 1
+                formed = 0
+                curr = defaultdict(int)
+
+        return False
